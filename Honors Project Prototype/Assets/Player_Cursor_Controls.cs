@@ -229,14 +229,16 @@ public class Player_Cursor_Controls : MonoBehaviour
 
             if (isChoosingAttackTarget && forecastCanvas.active)
             {
-
-                // TODO: Implement switching between available attack targets.
+                
                 if (Input.GetKeyDown(KeyCode.C))
                 {
                     isChoosingAttackTarget = false;
                     ResetCombatNums();
                     buttonCanvas.active = true;
                     forecastCanvas.active = false;
+
+                    transform.position = currentlySelectedUnit.transform.position;
+                    moveTarget.position = transform.position;
                 }
                 else if (Input.GetKeyDown(KeyCode.Space))
                 {
@@ -600,22 +602,42 @@ public class Player_Cursor_Controls : MonoBehaviour
     }
     private bool CanAttack(int attackRange)
     {
-        if (attackRange == 1)
+        bool canAttack = false;
+
+        var up = moveTarget.position + new Vector3(0f, 1f, 0f);
+        var down = moveTarget.position + new Vector3(0f, -1f, 0f);
+        var left = moveTarget.position + new Vector3(-1f, 0f, 0f);
+        var right = moveTarget.position + new Vector3(1f, 0f, 0f);
+        canAttack = (Physics2D.OverlapCircle(up, 0.1f, enemies)
+            || Physics2D.OverlapCircle(down, 0.1f, enemies)
+            || Physics2D.OverlapCircle(left, 0.1f, enemies)
+            || Physics2D.OverlapCircle(right, 0.1f, enemies));
+
+        if (attackRange == 2)
         {
-            var up = moveTarget.position + new Vector3(0f, 1f, 0f);
-            var down = moveTarget.position + new Vector3(0f, -1f, 0f);
-            var left = moveTarget.position + new Vector3(-1f, 0f, 0f);
-            var right = moveTarget.position + new Vector3(1f, 0f, 0f);
-            return (Physics2D.OverlapCircle(up, 0.1f, enemies)
-                || Physics2D.OverlapCircle(down, 0.1f, enemies)
-                || Physics2D.OverlapCircle(left, 0.1f, enemies)
-                || Physics2D.OverlapCircle(right, 0.1f, enemies));
+            up = moveTarget.position + new Vector3(0f, 2f, 0f);
+            down = moveTarget.position + new Vector3(0f, -2f, 0f);
+            left = moveTarget.position + new Vector3(-2f, 0f, 0f);
+            right = moveTarget.position + new Vector3(2f, 0f, 0f);
+            var upLeft = moveTarget.position + new Vector3(-1f, 1f, 0f);
+            var downRight = moveTarget.position + new Vector3(1f, -1f, 0f);
+            var downLeft = moveTarget.position + new Vector3(-1f, -1f, 0f);
+            var upRight = moveTarget.position + new Vector3(1f, 1f, 0f);
+
+            canAttack = (canAttack || (
+                Physics2D.OverlapCircle(up, 0.1f, enemies)
+            || Physics2D.OverlapCircle(down, 0.1f, enemies)
+            || Physics2D.OverlapCircle(left, 0.1f, enemies)
+            || Physics2D.OverlapCircle(right, 0.1f, enemies)
+            || Physics2D.OverlapCircle(upLeft, 0.1f, enemies)
+            || Physics2D.OverlapCircle(downLeft, 0.1f, enemies)
+            || Physics2D.OverlapCircle(upRight, 0.1f, enemies)
+            || Physics2D.OverlapCircle(downRight, 0.1f, enemies)
+                ));
         }
-        else
-        {
-            // TODO: Implement range detection for range = 2
-            return false;
-        }
+        // TODO: Implement range detection for range = 2
+        return canAttack;
+        
     }
 
     private void FindAttackableTargets(int weaponRange)
@@ -748,6 +770,23 @@ public class Player_Cursor_Controls : MonoBehaviour
             else
             {
                 enemyDoubles = false;
+            }
+
+            if (currAllyStats.weaponRange > currEnemyStats.weaponRange)
+            {
+                forecastLabelList[5].GetComponent<Text>().text = "-";
+                forecastLabelList[6].GetComponent<Text>().text = "-";
+                forecastLabelList[7].GetComponent<Text>().text = "-";
+                enemyDmg = 0;
+                enemyDoubles = false;
+            }
+            else if (currEnemyStats.weaponRange > currAllyStats.weaponRange)
+            {
+                forecastLabelList[1].GetComponent<Text>().text = "-";
+                forecastLabelList[2].GetComponent<Text>().text = "-";
+                forecastLabelList[3].GetComponent<Text>().text = "-";
+                allyDmg = 0;
+                allyDoubles = false;
             }
         }
     }
