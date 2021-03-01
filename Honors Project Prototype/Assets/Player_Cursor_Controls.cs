@@ -780,14 +780,6 @@ public class Player_Cursor_Controls : MonoBehaviour
                 enemyDmg = 0;
                 enemyDoubles = false;
             }
-            else if (currEnemyStats.weaponRange > currAllyStats.weaponRange)
-            {
-                forecastLabelList[1].GetComponent<Text>().text = "-";
-                forecastLabelList[2].GetComponent<Text>().text = "-";
-                forecastLabelList[3].GetComponent<Text>().text = "-";
-                allyDmg = 0;
-                allyDoubles = false;
-            }
         }
     }
 
