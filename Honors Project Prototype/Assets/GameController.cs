@@ -26,6 +26,7 @@ public class GameController : MonoBehaviour
     bool isMovingEnemy;
     int indexOfMovingEnemy;
     int dmgCalcedIndex;
+    int dist;
 
     Vector3 targetMovePosition;
     GameObject attackTarget;
@@ -38,6 +39,7 @@ public class GameController : MonoBehaviour
         isMovingEnemy = false;
         indexOfMovingEnemy = -1;
         dmgCalcedIndex = -1;
+        dist = 0;
         attackTarget = null;
     }
 
@@ -262,17 +264,18 @@ public class GameController : MonoBehaviour
                         Vector3 basePosition = attackTarget.transform.position;
                         Vector3 currEnemyPos = currEnemy.transform.position;
 
-                        if (currEnemyStats.weaponRange == 1)
+                        if (currEnemyStats.weaponRange == 2)
                         {
-                            possibleEndPoints.Add(new Vector3(basePosition.x + 1, basePosition.y, 0f));
-                            possibleEndPoints.Add(new Vector3(basePosition.x - 1, basePosition.y, 0f));
-                            possibleEndPoints.Add(new Vector3(basePosition.x, basePosition.y + 1, 0f));
-                            possibleEndPoints.Add(new Vector3(basePosition.x, basePosition.y - 1, 0f));
+                            possibleEndPoints.Add(new Vector3(basePosition.x + 1, basePosition.y + 1, 0f));
+                            possibleEndPoints.Add(new Vector3(basePosition.x + 1, basePosition.y - 1, 0f));
+                            possibleEndPoints.Add(new Vector3(basePosition.x - 1, basePosition.y + 1, 0f));
+                            possibleEndPoints.Add(new Vector3(basePosition.x - 1, basePosition.y - 1, 0f));
                         }
-                        else
-                        {
-                            // TODO: Implement population for range = 2
-                        }
+
+                        possibleEndPoints.Add(new Vector3(basePosition.x + 1, basePosition.y, 0f));
+                        possibleEndPoints.Add(new Vector3(basePosition.x - 1, basePosition.y, 0f));
+                        possibleEndPoints.Add(new Vector3(basePosition.x, basePosition.y + 1, 0f));
+                        possibleEndPoints.Add(new Vector3(basePosition.x, basePosition.y - 1, 0f));
 
                         possibleEndPoints = possibleEndPoints.Where(x => ((Mathf.Abs(x.x - currEnemyPos.x)) + (Mathf.Abs(x.y - currEnemyPos.y))) <= currEnemyStats.Mov).ToList();
 
@@ -291,22 +294,32 @@ public class GameController : MonoBehaviour
                             }
                         }
 
+                        if (possibleEndPoints.Contains(currEnemyPos))
+                        {
+                            targetMovePosition = currEnemyPos;
+                            isMovingEnemy = true;
+                        }
+
                         switch(possibleEndPoints.Count)
                         {
                             case 0:
                                 currEnemyStats.hasMoved = 1;
                                 indexOfMovingEnemy += 1;
+                                dist = 0;
                                 break;
                             case 1:
                                 targetMovePosition = possibleEndPoints[0];
                                 currEnemyPos = Vector3.MoveTowards(currEnemy.transform.position, targetMovePosition, 10 * Time.deltaTime);
                                 isMovingEnemy = true;
+                                dist += (int) Math.Abs(basePosition.x - targetMovePosition.x);
+                                dist += (int) Math.Abs(basePosition.y - targetMovePosition.y);
                                 break;
                             default:
-                                System.Random rand = new System.Random();
-                                targetMovePosition = possibleEndPoints[rand.Next(0, possibleEndPoints.Count)];
+                                targetMovePosition = possibleEndPoints[0];
                                 currEnemyPos = Vector3.MoveTowards(currEnemy.transform.position, targetMovePosition, 10 * Time.deltaTime);
                                 isMovingEnemy = true;
+                                dist += (int) Math.Abs(basePosition.x - targetMovePosition.x);
+                                dist += (int) Math.Abs(basePosition.y - targetMovePosition.y);
                                 break;
                         }                        
                     }
@@ -322,8 +335,8 @@ public class GameController : MonoBehaviour
                     CharacterStats currPlayerStats = attackTarget.GetComponent<CharacterStats>();
                     var currEnemyLevel = currEnemyStats.level;
                     var currPlayerLevel = currPlayerStats.level;
-                    Attack(currEnemy, attackTarget);
-                    
+                    Attack(currEnemy, attackTarget, dist);
+                    dist = 0;
                     try
                     {
                         currEnemyStats.hasMoved = 1;
@@ -430,7 +443,7 @@ public class GameController : MonoBehaviour
         return enemyDmg;
     }
 
-    private void Attack(GameObject enemyUnit, GameObject playerUnit)
+    private void Attack(GameObject enemyUnit, GameObject playerUnit, int dist)
     {
         var enemyStats = enemyUnit.GetComponent<CharacterStats>();
         var playerStats = playerUnit.GetComponent<CharacterStats>();
@@ -506,7 +519,10 @@ public class GameController : MonoBehaviour
             playerCrit = 0;
         }
 
-
+        if (enemyStats.weaponRange > playerStats.weaponRange && dist == 2)
+        {
+            playerHit = -1;
+        }
 
         try
         {
