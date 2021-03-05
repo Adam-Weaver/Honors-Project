@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class DialogueController : MonoBehaviour
 {
@@ -20,7 +21,9 @@ public class DialogueController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        currTextIndex = 0;
+        dialogueTBox.GetComponent<Text>().text = "" + dialogueList[currTextIndex];
+        speakerTBox.GetComponent<Text>().text = "" + speakerList[currTextIndex];
     }
 
     // Update is called once per frame
@@ -39,6 +42,20 @@ public class DialogueController : MonoBehaviour
                 return;
             }
             // TODO: Update Text on textboxes
+            dialogueTBox.GetComponent<Text>().text = "" + dialogueList[currTextIndex];
+            speakerTBox.GetComponent<Text>().text = "" + speakerList[currTextIndex];
         }
+
+
+        //if (speakerList[currTextIndex].Equals(""))
+        //{
+        //    speakerTBox.active = false;
+        //   speakerBGImage.active = false;
+        //}
+        //else
+        //{
+        //    speakerTBox.active = false;
+        //    speakerBGImage.active = false;
+        //}
     }
 }
