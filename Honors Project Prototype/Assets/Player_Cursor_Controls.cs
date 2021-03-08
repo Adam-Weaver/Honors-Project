@@ -774,11 +774,20 @@ public class Player_Cursor_Controls : MonoBehaviour
 
             if (currAllyStats.weaponRange > currEnemyStats.weaponRange)
             {
-                forecastLabelList[5].GetComponent<Text>().text = "-";
-                forecastLabelList[6].GetComponent<Text>().text = "-";
-                forecastLabelList[7].GetComponent<Text>().text = "-";
-                enemyDmg = 0;
-                enemyDoubles = false;
+                var currEnemyPos = attackableTargets[attackTargetIndex].transform.position;
+                var currPos = currentlySelectedUnit.transform.position;
+
+                float dist = Mathf.Abs(currEnemyPos.x - currPos.x);
+                dist += Mathf.Abs(currEnemyPos.y - currPos.y);
+
+                if (dist >= 1.1)
+                {
+                    forecastLabelList[5].GetComponent<Text>().text = "-";
+                    forecastLabelList[6].GetComponent<Text>().text = "-";
+                    forecastLabelList[7].GetComponent<Text>().text = "-";
+                    enemyDmg = 0;
+                    enemyDoubles = false;
+                }
             }
         }
     }
