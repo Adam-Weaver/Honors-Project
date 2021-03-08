@@ -388,7 +388,7 @@ GameObject:
   - component: {fileID: 87202694}
   - component: {fileID: 87202695}
   m_Layer: 9
-  m_Name: Player Generic Spearman_0
+  m_Name: Leo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -537,7 +537,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f999215aa48e12d49a9a4503cde26cce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterName: Ares
+  characterName: Leo
   maxHp: 20
   currentHp: 20
   Str: 10

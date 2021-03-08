@@ -315,17 +315,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueList:
-  - Let's test the dialogue features. How is this? Can you read this message? How
-    much can you read? What is the limit on how much I can put in one entry?
-  - I'm not sure! But if you are reading this, then dialogue shifting worked! You
-    now have the system set up to present dialogue as you please. Will it transition
-    again?
-  - It did! Now just press space one more time, and you should be able to start playing
-    the first level!
+  - Ugh... Where am I? What happened? And where did all this fog come from?
+  - Let's see... The last thing I remember, I was fighting at that pass, then everything
+    went dark...
+  - ...
+  - Am... Am I-
+  - GRAAGH!
+  - Looks like I don't have time to think about that right now. I'll worry about
+    it later. For now, you'll pay for interrupting me!
   speakerList:
-  - Me
-  - Myself
-  - 
+  - Leo
+  - Leo
+  - Leo
+  - Leo
+  - Phantom
+  - Leo
   dialogueTBox: {fileID: 923294841}
   speakerTBox: {fileID: 1646029073}
   speakerBGImage: {fileID: 1526706435}
@@ -564,8 +568,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1224674957}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.61, y: 1.93, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0.595, y: 1.49, z: 0}
+  m_LocalScale: {x: 0.33102298, y: 0.38513085, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
