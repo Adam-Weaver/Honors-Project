@@ -42,6 +42,11 @@ public class Player_Cursor_Controls : MonoBehaviour
     public GameObject levelUpInfoCanvas;
     public List<Text> levelUpInfoList;
 
+    public GameObject weaponUpgradeCanvas;
+    public List<Text> weaponUpgradeOldStatsList;
+    public List<Button> weaponUpgradeButtonList;
+    public int weaponBListIndex;
+
     Rigidbody2D rb;
     BoxCollider2D col;
 
@@ -63,6 +68,8 @@ public class Player_Cursor_Controls : MonoBehaviour
 
     bool didShowGrowths = false;
 
+    int updatesSinceButtonChange;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -73,6 +80,9 @@ public class Player_Cursor_Controls : MonoBehaviour
         isMovingUnit = false;
         isChoosingAttackTarget = false;
         selectedButtonIndex = -1;
+        weaponBListIndex = -1;
+        updatesSinceButtonChange = 50;
+
         attackTargetIndex = -1;
         attackableTargets = new List<GameObject>();
 
@@ -83,6 +93,82 @@ public class Player_Cursor_Controls : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (weaponUpgradeCanvas.active)
+        {
+            hoverCanvas.active = false;
+
+            if (currentlySelectedUnit == null)
+            {
+                foreach (Button button in weaponUpgradeButtonList)
+                {
+                    var image = button.GetComponent<Image>();
+                    image.color = Color.red;
+                }
+                return;
+            
+            }
+
+            CharacterStats currStats = currentlySelectedUnit.GetComponent<CharacterStats>();
+
+            ColorWeaponUpgradeButtons();
+
+            if (weaponBListIndex == -1) 
+            {
+                weaponBListIndex = 0;
+            }
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                switch(weaponBListIndex)
+                {
+                    case 0:
+                        currStats.weaponMt += 1;
+                        break;
+                    case 1:
+                        currStats.hit += 5;
+                        break;
+                    case 2:
+                        currStats.crit += 5;
+                        break;
+                    default:
+                        break;
+                }
+                weaponBListIndex = -1;
+                weaponUpgradeCanvas.active = false;
+                currentlySelectedUnit = null;
+                ColorWeaponUpgradeButtons();
+                updatesSinceButtonChange = 50;
+                return;
+            }
+
+            if (updatesSinceButtonChange >= 50)
+            {
+                bool moveHor = Mathf.Abs(Input.GetAxisRaw("Horizontal")) == 1f;
+                if (moveHor)
+                {
+                    if (Input.GetAxisRaw("Horizontal") == 1f)
+                    {
+                        if (weaponBListIndex < weaponUpgradeButtonList.Count - 1)
+                        {
+                            weaponBListIndex += 1;
+                        }
+                    }
+                    else if (Input.GetAxisRaw("Horizontal") == -1f)
+                    {
+                        if (weaponBListIndex >= 1)
+                        {
+                            weaponBListIndex -= 1;
+                        }
+                    }
+                }
+                updatesSinceButtonChange = 0;
+                return;
+            }
+
+            updatesSinceButtonChange += 1;
+            return;
+        }
+
+
         if (levelUpCanvas.active)
         {
             hoverCanvas.active = false;
@@ -111,11 +197,11 @@ public class Player_Cursor_Controls : MonoBehaviour
         if (levelUpInfoCanvas.active)
         {
             if (Input.GetKeyDown(KeyCode.Space))
-            {
-                
+            { 
+                CharacterStats currStats = currentlySelectedUnit.GetComponent<CharacterStats>();
                 if (!didShowGrowths)
                 {
-                    CharacterStats currStats = currentlySelectedUnit.GetComponent<CharacterStats>();
+                    
 
                     levelUpInfoList[1].GetComponent<Text>().text = "" + currStats.maxHp;
                     levelUpInfoList[2].GetComponent<Text>().text = "" + currStats.Str;
@@ -131,9 +217,19 @@ public class Player_Cursor_Controls : MonoBehaviour
                 }
                 else
                 {
-                    levelUpInfoCanvas.active = false;
-                    currentlySelectedUnit = null;
                     didShowGrowths = false;
+                    levelUpInfoCanvas.active = false;
+                    if (currStats.level % 3 == 0)
+                    {
+                        weaponUpgradeCanvas.active = true;
+                        weaponUpgradeOldStatsList[0].GetComponent<Text>().text = "" + currStats.weaponMt;
+                        weaponUpgradeOldStatsList[1].GetComponent<Text>().text = "" + currStats.hit;
+                        weaponUpgradeOldStatsList[2].GetComponent<Text>().text = "" + currStats.crit;
+                        
+                        return;
+                    }
+
+                    currentlySelectedUnit = null;
                 }
             }
             return;
@@ -998,5 +1094,23 @@ public class Player_Cursor_Controls : MonoBehaviour
         }
 
         return null;
+    }
+
+    public void ColorWeaponUpgradeButtons()
+    {
+        int currIndex = 0;
+        foreach (Button button in weaponUpgradeButtonList)
+        {
+            var image = button.GetComponent<Image>();
+            if (currIndex != weaponBListIndex)
+            {
+                image.color = Color.white;
+            }
+            else
+            {
+                image.color = Color.blue;
+            }
+            currIndex += 1;
+        }
     }
 }

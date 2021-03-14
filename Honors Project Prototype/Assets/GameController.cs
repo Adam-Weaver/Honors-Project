@@ -17,6 +17,7 @@ public class GameController : MonoBehaviour
     public GameObject playerTurnCanvas;
     public GameObject levelUpCanvas;
     public GameObject levelUpInfoCanvas;
+    public GameObject weaponUpgradeCanvas;
 
     public GameObject cursor;
 
@@ -47,7 +48,7 @@ public class GameController : MonoBehaviour
     void Update()
     {
 
-        if (levelUpCanvas.active || levelUpInfoCanvas.active)
+        if (levelUpCanvas.active || levelUpInfoCanvas.active || weaponUpgradeCanvas.active)
         {
             return;
         }
