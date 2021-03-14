@@ -629,7 +629,7 @@ MonoBehaviour:
   hasMoved: 0
   isEnemy: 0
   growths: 64000000550000000a00000032000000410000002d0000004b00000023000000
-  level: 2
+  level: 1
   exp: 0
   weaponRange: 2
   weaponMt: 5

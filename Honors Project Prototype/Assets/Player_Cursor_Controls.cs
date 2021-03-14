@@ -159,8 +159,8 @@ public class Player_Cursor_Controls : MonoBehaviour
                             weaponBListIndex -= 1;
                         }
                     }
+                    updatesSinceButtonChange = 0;
                 }
-                updatesSinceButtonChange = 0;
                 return;
             }
 
