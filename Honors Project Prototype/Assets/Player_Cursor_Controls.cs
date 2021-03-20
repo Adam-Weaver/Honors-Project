@@ -7,7 +7,7 @@ using UnityEngine.UI;
 using System.Linq;
 using UnityEngine.Tilemaps;
 
-using UnityEngine.SceneManagement;
+
 
 public class Player_Cursor_Controls : MonoBehaviour
 {
@@ -95,6 +95,29 @@ public class Player_Cursor_Controls : MonoBehaviour
 
 
         WipeValidSpaceMap();
+
+        SceneManager.activeSceneChanged += SceneChanged;
+    }
+
+    void SceneChanged(Scene current, Scene next)
+    {
+        currentlySelectedUnit = null;
+        moveTarget.parent = null;
+        rb = GetComponent<Rigidbody2D>();
+        col = GetComponent<BoxCollider2D>();
+        isMovingUnit = false;
+        isChoosingAttackTarget = false;
+        selectedButtonIndex = -1;
+        weaponBListIndex = -1;
+        updatesSinceButtonChange = 50;
+
+        attackTargetIndex = -1;
+        attackableTargets = new List<GameObject>();
+
+        // TODO: Reconnect missing variables, probably through the use of a placeholder game object
+        
+
+        //WipeValidSpaceMap();
     }
 
     // Update is called once per frame

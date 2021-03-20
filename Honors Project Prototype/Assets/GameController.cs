@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 
 public class GameController : MonoBehaviour
@@ -45,6 +46,13 @@ public class GameController : MonoBehaviour
         dmgCalcedIndex = -1;
         dist = 0;
         attackTarget = null;
+
+        SceneManager.activeSceneChanged += SceneHasChanged;
+    }
+
+    void SceneHasChanged(Scene current, Scene next)
+    {
+        // TODO: Reconnect missing variables, probably through the use of a placeholder game object
     }
 
     // Update is called once per frame
