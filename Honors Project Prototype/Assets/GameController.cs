@@ -4,6 +4,7 @@ using System;
 using UnityEngine;
 using System.Linq;
 
+
 public class GameController : MonoBehaviour
 {
     public List<GameObject> playerUnitList;
@@ -35,6 +36,8 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        DontDestroyOnLoad(transform.gameObject);
+
         didHaveABoss = false;
         isPlayerTurn = true;
         isMovingEnemy = false;

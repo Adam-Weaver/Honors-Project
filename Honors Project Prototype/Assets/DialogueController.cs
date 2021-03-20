@@ -18,12 +18,18 @@ public class DialogueController : MonoBehaviour
 
     public string nextSceneName;
 
+    public GameObject cursor;
+
     // Start is called before the first frame update
     void Start()
     {
         currTextIndex = 0;
         dialogueTBox.GetComponent<Text>().text = "" + dialogueList[currTextIndex];
         speakerTBox.GetComponent<Text>().text = "" + speakerList[currTextIndex];
+        if (cursor != null)
+        {
+            cursor.active = false;
+        }
     }
 
     // Update is called once per frame
@@ -34,7 +40,10 @@ public class DialogueController : MonoBehaviour
             currTextIndex += 1;
             if (currTextIndex >= dialogueList.Count)
             {
-
+                if (cursor != null)
+                {
+                    cursor.active = true;
+                }
                 Scene thisScene = SceneManager.GetActiveScene();
                 SceneManager.LoadScene(nextSceneName);
                 //SceneManager.SetActiveScene(nextScene);

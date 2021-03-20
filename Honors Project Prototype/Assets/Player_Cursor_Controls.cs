@@ -7,9 +7,14 @@ using UnityEngine.UI;
 using System.Linq;
 using UnityEngine.Tilemaps;
 
+using UnityEngine.SceneManagement;
+
 public class Player_Cursor_Controls : MonoBehaviour
 {
     public GameObject gameController;
+
+    public List<string> laterSceneNames;
+    public int nextScene;
 
     public float moveSpeed = 20f;
     public Transform moveTarget;
@@ -73,6 +78,8 @@ public class Player_Cursor_Controls : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        DontDestroyOnLoad(transform.gameObject);
+
         currentlySelectedUnit = null;
         moveTarget.parent = null;
         rb = GetComponent<Rigidbody2D>();
@@ -264,8 +271,12 @@ public class Player_Cursor_Controls : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 // TODO: Implement transition to next scene after victory
-                Scene scene = SceneManager.GetActiveScene();
-                SceneManager.LoadScene(scene.name);
+                // Scene scene = SceneManager.GetActiveScene();
+                nextScene += 1;
+                if (nextScene >= 0 && nextScene < laterSceneNames.Count)
+                {
+                    SceneManager.LoadScene(laterSceneNames[nextScene]);
+                }
                 return;
             }
 
@@ -325,7 +336,8 @@ public class Player_Cursor_Controls : MonoBehaviour
 
             if (isChoosingAttackTarget && forecastCanvas.active)
             {
-                
+                hoverCanvas.active = false;
+
                 if (Input.GetKeyDown(KeyCode.C))
                 {
                     isChoosingAttackTarget = false;

@@ -37,7 +37,11 @@ public class CharacterStats : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        DontDestroyOnLoad(transform.gameObject);
+        if (currentHp != maxHp)
+        {
+            currentHp = maxHp;
+        }
     }
 
     // Update is called once per frame
