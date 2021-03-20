@@ -52,7 +52,38 @@ public class GameController : MonoBehaviour
 
     void SceneHasChanged(Scene current, Scene next)
     {
+
+        GameObject dialogueController = GameObject.Find("Dialogue Controller");
+        if (dialogueController != null)
+        {
+            return;
+        }
+
+        didHaveABoss = false;
+        isPlayerTurn = true;
+        isMovingEnemy = false;
+        indexOfMovingEnemy = -1;
+        dmgCalcedIndex = -1;
+        dist = 0;
+        attackTarget = null;
+
+
         // TODO: Reconnect missing variables, probably through the use of a placeholder game object
+
+        // TODO: Reposition player units.
+        int currSlotID = 1;
+
+        foreach (GameObject unit in playerUnitList)
+        {
+            GameObject slot = GameObject.Find("Slot " + currSlotID);
+            if (slot != null)
+            {
+                unit.transform.position = slot.transform.position;
+                currSlotID += 1;
+                continue;
+            }
+            break;
+        }
     }
 
     // Update is called once per frame

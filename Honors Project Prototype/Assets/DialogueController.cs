@@ -18,14 +18,17 @@ public class DialogueController : MonoBehaviour
 
     public string nextSceneName;
 
-    public GameObject cursor;
 
+    GameObject cursor = null;
     // Start is called before the first frame update
     void Start()
     {
         currTextIndex = 0;
         dialogueTBox.GetComponent<Text>().text = "" + dialogueList[currTextIndex];
         speakerTBox.GetComponent<Text>().text = "" + speakerList[currTextIndex];
+
+        cursor = GameObject.Find("Cursor");
+
         if (cursor != null)
         {
             cursor.active = false;

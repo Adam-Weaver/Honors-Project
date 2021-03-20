@@ -101,6 +101,12 @@ public class Player_Cursor_Controls : MonoBehaviour
 
     void SceneChanged(Scene current, Scene next)
     {
+        GameObject dialogueController = GameObject.Find("Dialogue Controller");
+        if (dialogueController != null)
+        {
+            return;
+        }
+
         currentlySelectedUnit = null;
         moveTarget.parent = null;
         rb = GetComponent<Rigidbody2D>();
