@@ -29,6 +29,8 @@ public class GameController : MonoBehaviour
     public bool didHaveABoss;
     public bool isPlayerTurn;
 
+    bool canUpdate = true;
+
     bool isMovingEnemy;
     int indexOfMovingEnemy;
     int dmgCalcedIndex;
@@ -53,8 +55,8 @@ public class GameController : MonoBehaviour
         }
         DontDestroyOnLoad(transform.gameObject);
 
-        fallenPlayerUnitList = new List<GameObject>();
-        fallenEnemyUnitList = new List<GameObject>();
+        fallenPlayerUnitList.Clear();
+        fallenEnemyUnitList.Clear();
 
         didHaveABoss = false;
         isPlayerTurn = true;
@@ -84,25 +86,18 @@ public class GameController : MonoBehaviour
 
     void SceneHasChanged(Scene current, Scene next)
     {
-
+        // If we are on a dialogue scene, handled by a "Dialogue Controller" object, don't try to reset.
         GameObject dialogueController = GameObject.Find("Dialogue Controller");
         if (dialogueController != null)
         {
             return;
         }
+        
 
-        didHaveABoss = false;
-        isPlayerTurn = true;
-        isMovingEnemy = false;
-        indexOfMovingEnemy = -1;
-        dmgCalcedIndex = -1;
-        dist = 0;
-        attackTarget = null;
+        enemyTurnCanvas.active = false;
+        playerTurnCanvas.active = true;
 
-
-        // TODO: Reconnect missing variables, probably through the use of a placeholder game object
-
-        // TODO: Reposition player units.
+        // Reposition player units into the available slots of the new level.
         int currSlotID = 1;
 
         foreach (GameObject unit in playerUnitList)
@@ -114,10 +109,12 @@ public class GameController : MonoBehaviour
 
                 var unitStats = unit.GetComponent<CharacterStats>();
                 unitStats.spawnPoint = unit.transform.position;
-
+                unitStats.currentHp = unitStats.maxHp;
+                unitStats.hasMoved = 0;
                 if (currSlotID == 1)
                 {
                     cursor.transform.position = slot.transform.position;
+                    cursor.GetComponent<Player_Cursor_Controls>().moveTarget.position = cursor.transform.position;
                 }
 
                 currSlotID += 1;
@@ -125,6 +122,37 @@ public class GameController : MonoBehaviour
             }
             break;
         }
+
+        // Add the new player units to the player units list
+        GameObject newPlayerUnits = GameObject.Find("newPlayerUnits");
+        if (newPlayerUnits == null)
+        {
+            return;
+        }
+
+        foreach (Transform child in newPlayerUnits.transform)
+        {
+            GameObject newUnit = child.gameObject;
+            playerUnitList.Add(newUnit);
+        }
+
+        // Add the new enemies to the enemy units list
+        GameObject newEnemies = GameObject.Find("enemies");
+        if (newEnemies == null)
+        {
+            return;
+        }
+
+        foreach (Transform child in newEnemies.transform)
+        {
+            GameObject newUnit = child.gameObject;
+            enemyUnitList.Add(newUnit);
+        }
+
+        fallenPlayerUnitList.Clear();
+        fallenEnemyUnitList.Clear();
+
+        canUpdate = true;
     }
 
     // Update is called once per frame
@@ -136,6 +164,10 @@ public class GameController : MonoBehaviour
             return;
         }
 
+        if (!canUpdate)
+        {
+            return;
+        }
 
         if (levelUpCanvas.active || levelUpInfoCanvas.active || weaponUpgradeCanvas.active)
         {
@@ -187,6 +219,7 @@ public class GameController : MonoBehaviour
             enemyTurnCanvas.active = false;
             defeatCanvas.active = false;
             victoryCanvas.active = true;
+            canUpdate = false;
             return;
         }
         else
@@ -203,6 +236,15 @@ public class GameController : MonoBehaviour
             if (enemiesAllDead)
             {
                 victoryCanvas.active = true;
+                playerTurnCanvas.active = false;
+                enemyTurnCanvas.active = false;
+                defeatCanvas.active = false;
+
+                canUpdate = false;
+            }
+            else
+            {
+                victoryCanvas.active = false;
             }
         }
         

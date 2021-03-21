@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6694930868236097530}
   - component: {fileID: 6694930868236097532}
   m_Layer: 10
-  m_Name: Enemy Generic Spearman_0
+  m_Name: Enemy Spearman
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -181,9 +181,10 @@ MonoBehaviour:
   level: 0
   exp: 0
   weaponRange: 1
-  weaponMt: 10
-  hit: 50
-  crit: 50
+  weaponMt: 4
+  hit: 90
+  crit: 5
   isMagic: 0
   statGains: 
   self: {fileID: 6694930868236097526}
+  spawnPoint: {x: 0, y: 0, z: 0}

@@ -106,8 +106,10 @@ public class Player_Cursor_Controls : MonoBehaviour
         attackTargetIndex = -1;
         attackableTargets = new List<GameObject>();
 
-
-        WipeValidSpaceMap();
+        if (validSpaceMap != null)
+        {
+            WipeValidSpaceMap();
+        }
 
         SceneManager.activeSceneChanged += SceneChanged;
     }
@@ -133,11 +135,14 @@ public class Player_Cursor_Controls : MonoBehaviour
         attackTargetIndex = -1;
         attackableTargets = new List<GameObject>();
 
-
         // TODO: Reconnect missing variables, probably through the use of a placeholder game object
+        Tilemap vsm = GameObject.Find("Grid").transform.Find("Valid Move Spaces").gameObject.GetComponent<Tilemap>();
+        if (vsm != null)
+        {
+            validSpaceMap = vsm;
+            WipeValidSpaceMap();
+        }
         
-
-        //WipeValidSpaceMap();
     }
 
     void ResetCurrScene()
@@ -177,7 +182,6 @@ public class Player_Cursor_Controls : MonoBehaviour
             gc.enemyUnitList.Add(gc.fallenEnemyUnitList[i]);
         }
         gc.fallenEnemyUnitList = new List<GameObject>();
-
         return;
     }
 
@@ -367,6 +371,7 @@ public class Player_Cursor_Controls : MonoBehaviour
             {
                 // TODO: Implement transition to next scene after victory
                 // Scene scene = SceneManager.GetActiveScene();
+                moveTarget.position = transform.position;
                 nextScene += 1;
                 if (nextScene >= 0 && nextScene < laterSceneNames.Count)
                 {

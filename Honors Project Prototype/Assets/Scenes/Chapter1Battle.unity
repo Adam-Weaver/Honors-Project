@@ -2648,7 +2648,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameController: {fileID: 1363240915}
   laterSceneNames:
-  - Chapter2Battle
+  - DialogueScene2
   nextScene: -1
   moveSpeed: 10
   moveTarget: {fileID: 1883764846}
@@ -14128,18 +14128,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6694930868236097532, guid: 125421fb5baad8c479a659d466fabc3e,
         type: 3}
+      propertyPath: Mov
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6694930868236097532, guid: 125421fb5baad8c479a659d466fabc3e,
+        type: 3}
       propertyPath: hit
-      value: 150
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 6694930868236097532, guid: 125421fb5baad8c479a659d466fabc3e,
         type: 3}
       propertyPath: crit
-      value: 200
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6694930868236097532, guid: 125421fb5baad8c479a659d466fabc3e,
         type: 3}
       propertyPath: weaponMt
-      value: 15
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6694930868236097532, guid: 125421fb5baad8c479a659d466fabc3e,
         type: 3}
