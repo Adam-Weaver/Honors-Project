@@ -75,10 +75,23 @@ public class Player_Cursor_Controls : MonoBehaviour
 
     int updatesSinceButtonChange;
 
+
+    private static Player_Cursor_Controls instance;
+
     // Start is called before the first frame update
     void Start()
     {
-        DontDestroyOnLoad(transform.gameObject);
+        if (instance != null && instance != this)
+        {
+            Destroy(transform.gameObject);
+        }
+        else
+        {
+            instance = this;
+
+            DontDestroyOnLoad(transform.gameObject);
+            DontDestroyOnLoad(moveTarget.gameObject);
+        }
 
         currentlySelectedUnit = null;
         moveTarget.parent = null;
@@ -99,6 +112,7 @@ public class Player_Cursor_Controls : MonoBehaviour
         SceneManager.activeSceneChanged += SceneChanged;
     }
 
+
     void SceneChanged(Scene current, Scene next)
     {
         GameObject dialogueController = GameObject.Find("Dialogue Controller");
@@ -108,7 +122,6 @@ public class Player_Cursor_Controls : MonoBehaviour
         }
 
         currentlySelectedUnit = null;
-        moveTarget.parent = null;
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<BoxCollider2D>();
         isMovingUnit = false;
@@ -120,10 +133,52 @@ public class Player_Cursor_Controls : MonoBehaviour
         attackTargetIndex = -1;
         attackableTargets = new List<GameObject>();
 
+
         // TODO: Reconnect missing variables, probably through the use of a placeholder game object
         
 
         //WipeValidSpaceMap();
+    }
+
+    void ResetCurrScene()
+    {
+        
+        GameController gc = gameController.GetComponent<GameController>();
+        gc.isPlayerTurn = true;
+        defeatCanvas.active = false;
+        playerTurnCanvas.active = true;
+
+        foreach (GameObject pUnit in gc.fallenPlayerUnitList)
+        {
+            pUnit.active = true;
+            var unitStats = pUnit.GetComponent<CharacterStats>();
+            unitStats.currentHp = unitStats.maxHp;
+            unitStats.hasMoved = 0;
+            pUnit.transform.position = unitStats.spawnPoint;
+        }
+
+        for (int i = 0; i < gc.fallenPlayerUnitList.Count; i++)
+        {
+            gc.playerUnitList.Add(gc.fallenPlayerUnitList[i]);
+        }
+        gc.fallenPlayerUnitList = new List<GameObject>();
+
+        foreach (GameObject eUnit in gc.fallenEnemyUnitList)
+        {
+            eUnit.active = true;
+            var unitStats = eUnit.GetComponent<CharacterStats>();
+            unitStats.currentHp = unitStats.maxHp;
+            unitStats.hasMoved = 0;
+            eUnit.transform.position = unitStats.spawnPoint;
+        }
+
+        for (int i = 0; i < gc.fallenEnemyUnitList.Count; i++)
+        {
+            gc.enemyUnitList.Add(gc.fallenEnemyUnitList[i]);
+        }
+        gc.fallenEnemyUnitList = new List<GameObject>();
+
+        return;
     }
 
     // Update is called once per frame
@@ -283,6 +338,17 @@ public class Player_Cursor_Controls : MonoBehaviour
             return;
         }
 
+        if (defeatCanvas.active)
+        {
+            hoverCanvas.active = false;
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                ResetCurrScene();
+                return;
+            }
+            return;
+        }
+
         var gameControllerScript = gameController.GetComponent<GameController>();
         if (!gameControllerScript.isPlayerTurn)
         {
@@ -309,18 +375,6 @@ public class Player_Cursor_Controls : MonoBehaviour
                 return;
             }
 
-            return;
-        }
-
-        if (defeatCanvas.active)
-        {
-            hoverCanvas.active = false;
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                Scene scene = SceneManager.GetActiveScene();
-                SceneManager.LoadScene(scene.name);
-                return;
-            }
             return;
         }
 
@@ -385,6 +439,9 @@ public class Player_Cursor_Controls : MonoBehaviour
                     {
                         currentlySelectedUnit.GetComponent<CharacterStats>().exp += 100;
                         levelUpCanvas.active = true;
+
+                        gameControllerScript.fallenEnemyUnitList.Add(attackableTargets[attackTargetIndex]);
+                        gameControllerScript.enemyUnitList.Remove(attackableTargets[attackTargetIndex]);
 
                         ResetCombatNums();
                         isChoosingAttackTarget = false;
@@ -963,7 +1020,10 @@ public class Player_Cursor_Controls : MonoBehaviour
                     }
                 }
                 
-
+                if (attackableTargets[attackTargetIndex].GetComponent<CharacterStats>().currentHp <= 0)
+                {
+                    return;
+                }
 
                 hitr1 = UnityEngine.Random.Range(0, 100);
                 hitr2 = UnityEngine.Random.Range(0, 100);
@@ -986,8 +1046,15 @@ public class Player_Cursor_Controls : MonoBehaviour
                     }
                 }
 
+                if (currentlySelectedUnit.GetComponent<CharacterStats>().currentHp <= 0)
+                {
+                    GameController gc = gameController.GetComponent<GameController>();
+                    gc.fallenPlayerUnitList.Add(currentlySelectedUnit);
+                    gc.playerUnitList.Remove(currentlySelectedUnit);
+                }
 
-                if (allyDoubles && currentlySelectedUnit.GetComponent<CharacterStats>().currentHp > 0)
+
+                if (allyDoubles && (currentlySelectedUnit.GetComponent<CharacterStats>().currentHp > 0))
                 {
                     hitr1 = UnityEngine.Random.Range(0, 100);
                     hitr2 = UnityEngine.Random.Range(0, 100);

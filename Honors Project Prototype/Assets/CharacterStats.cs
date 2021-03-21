@@ -34,6 +34,9 @@ public class CharacterStats : MonoBehaviour
     public List<int> statGains;
 
     public GameObject self;
+
+    public Vector3 spawnPoint;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -42,6 +45,7 @@ public class CharacterStats : MonoBehaviour
         {
             currentHp = maxHp;
         }
+        spawnPoint = transform.position;
     }
 
     // Update is called once per frame
@@ -49,7 +53,7 @@ public class CharacterStats : MonoBehaviour
     {
         if (currentHp <= 0)
         {
-            Destroy(self);
+            self.active = false;
         }
         if (exp >= 100)
         {

@@ -11,6 +11,9 @@ public class GameController : MonoBehaviour
     public List<GameObject> playerUnitList;
     public List<GameObject> enemyUnitList;
 
+    public List<GameObject> fallenPlayerUnitList;
+    public List<GameObject> fallenEnemyUnitList;
+
     public GameObject mapBoss;
 
     public GameObject victoryCanvas;
@@ -34,10 +37,24 @@ public class GameController : MonoBehaviour
     Vector3 targetMovePosition;
     GameObject attackTarget;
 
+    private static GameController instance;
+
     // Start is called before the first frame update
     void Start()
     {
+        if (instance != null && instance != this)
+        {
+            DestroySelf();
+            return;
+        }
+        else
+        {
+            instance = this;
+        }
         DontDestroyOnLoad(transform.gameObject);
+
+        fallenPlayerUnitList = new List<GameObject>();
+        fallenEnemyUnitList = new List<GameObject>();
 
         didHaveABoss = false;
         isPlayerTurn = true;
@@ -48,6 +65,21 @@ public class GameController : MonoBehaviour
         attackTarget = null;
 
         SceneManager.activeSceneChanged += SceneHasChanged;
+    }
+
+    void DestroySelf()
+    {
+        for (int i = playerUnitList.Count - 1; i >= 0; i--)
+        {
+            Destroy(playerUnitList[i]);
+        }
+
+        for (int i = enemyUnitList.Count - 1; i >= 0; i--)
+        {
+            Destroy(enemyUnitList[i]);
+        }
+
+        Destroy(transform.gameObject);
     }
 
     void SceneHasChanged(Scene current, Scene next)
@@ -79,6 +111,15 @@ public class GameController : MonoBehaviour
             if (slot != null)
             {
                 unit.transform.position = slot.transform.position;
+
+                var unitStats = unit.GetComponent<CharacterStats>();
+                unitStats.spawnPoint = unit.transform.position;
+
+                if (currSlotID == 1)
+                {
+                    cursor.transform.position = slot.transform.position;
+                }
+
                 currSlotID += 1;
                 continue;
             }
@@ -89,6 +130,12 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (instance != null && instance != this)
+        {
+            DestroySelf();
+            return;
+        }
+
 
         if (levelUpCanvas.active || levelUpInfoCanvas.active || weaponUpgradeCanvas.active)
         {
@@ -102,7 +149,17 @@ public class GameController : MonoBehaviour
 
 
         // Handle dead units
-        playerUnitList = playerUnitList.Where(x => x != null).ToList();
+        for (int i = playerUnitList.Count - 1; i >= 0; i--)
+        {
+            var unit = playerUnitList[i];
+            var unitStats = unit.GetComponent<CharacterStats>();
+
+            if (unitStats.currentHp <= 0)
+            {
+                fallenPlayerUnitList.Add(unit);
+                playerUnitList.Remove(unit);
+            }
+        }
 
 
         // Victory and Defeat Conditions
@@ -137,7 +194,7 @@ public class GameController : MonoBehaviour
             bool enemiesAllDead = true;
             for (int i = 0; i < enemyUnitList.Count; i++)
             {
-                if (enemyUnitList[i] != null)
+                if (enemyUnitList[i] != null && enemyUnitList[i].active)
                 {
                     enemiesAllDead = false;
                     break;
@@ -168,13 +225,17 @@ public class GameController : MonoBehaviour
                 indexOfMovingEnemy -= 1;
                 return;
             }
-            //enemyUnitList = enemyUnitList.Where(x => x != null).ToList();
+             
             try
             {
-                foreach (GameObject unit in enemyUnitList)
+                for (int i = enemyUnitList.Count - 1; i >= 0; i--) 
                 {
-                    if (unit == null)
+                    var unit = enemyUnitList[i];
+                    var unitStats = unit.GetComponent<CharacterStats>();
+
+                    if (unitStats.currentHp <= 0)
                     {
+                        fallenEnemyUnitList.Add(unit);
                         enemyUnitList.Remove(unit);
                     }
                 }
@@ -217,8 +278,11 @@ public class GameController : MonoBehaviour
                 // enemyUnitList = enemyUnitList.Where(x => x != null).ToList();
                 foreach (GameObject unit in enemyUnitList)
                 {
-                    if (unit == null)
+                    var unitStats = unit.GetComponent<CharacterStats>();
+
+                    if (unitStats.currentHp <= 0)
                     {
+                        fallenEnemyUnitList.Add(unit);
                         enemyUnitList.Remove(unit);
                     }
                 }
@@ -243,10 +307,14 @@ public class GameController : MonoBehaviour
 
                 try
                 {
-                    foreach (GameObject unit in enemyUnitList)
+                    for (int i = enemyUnitList.Count - 1; i >= 0; i--)
                     {
-                        if (unit == null)
+                        var unit = enemyUnitList[i];
+                        var unitStats = unit.GetComponent<CharacterStats>();
+
+                        if (unitStats.currentHp <= 0)
                         {
+                            fallenEnemyUnitList.Add(unit);
                             enemyUnitList.Remove(unit);
                         }
                     }
@@ -586,6 +654,13 @@ public class GameController : MonoBehaviour
                 {
                     playerStats.currentHp -= (2 * enemyDmg);
                 }
+            }
+
+            if (playerStats.currentHp <= 0)
+            {
+                fallenPlayerUnitList.Add(playerUnit);
+                playerUnitList.Remove(playerUnit);
+                return; 
             }
 
             hit1 = rng.Next(0, 101);
