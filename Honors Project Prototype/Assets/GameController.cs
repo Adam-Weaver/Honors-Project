@@ -149,6 +149,20 @@ public class GameController : MonoBehaviour
             enemyUnitList.Add(newUnit);
         }
 
+        // Find the boss of the map, if there is one.
+        GameObject bossHolder = GameObject.Find("Boss Holder");
+        if (bossHolder != null)
+        {
+            Boss bossScript = bossHolder.GetComponent<Boss>();
+            GameObject bossUnit = bossScript.mapBoss;
+
+            if (bossUnit != null)
+            {
+                mapBoss = bossUnit;
+            }
+        }
+
+
         fallenPlayerUnitList.Clear();
         fallenEnemyUnitList.Clear();
 
@@ -483,7 +497,7 @@ public class GameController : MonoBehaviour
             {
                 currEnemy.transform.position = Vector3.MoveTowards(currEnemy.transform.position, targetMovePosition, 10 * Time.deltaTime);
                 
-                if (Vector3.Distance(currEnemy.transform.position, targetMovePosition) <= 0.2f)
+                if (Vector3.Distance(currEnemy.transform.position, targetMovePosition) <= 0.02f)
                 {
                     CharacterStats currPlayerStats = attackTarget.GetComponent<CharacterStats>();
                     var currEnemyLevel = currEnemyStats.level;
@@ -533,7 +547,10 @@ public class GameController : MonoBehaviour
                     }
                     if (levelUpCanvas.active)
                     {
-                        cursor.GetComponent<Player_Cursor_Controls>().currentlySelectedUnit = attackTarget;
+                        Player_Cursor_Controls cursorScript = cursor.GetComponent<Player_Cursor_Controls>();
+                        cursorScript.currentlySelectedUnit = attackTarget;
+                        cursor.transform.position = cursorScript.currentlySelectedUnit.transform.position;
+                        cursorScript.moveTarget.position = cursor.transform.position;
                     }
                     isMovingEnemy = false;
                     indexOfMovingEnemy += 1;

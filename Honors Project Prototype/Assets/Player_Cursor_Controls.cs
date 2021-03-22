@@ -267,6 +267,8 @@ public class Player_Cursor_Controls : MonoBehaviour
         if (levelUpCanvas.active)
         {
             hoverCanvas.active = false;
+            transform.position = currentlySelectedUnit.transform.position;
+            moveTarget.position = currentlySelectedUnit.transform.position;
             
             if (Input.GetKeyDown(KeyCode.Space))
             {

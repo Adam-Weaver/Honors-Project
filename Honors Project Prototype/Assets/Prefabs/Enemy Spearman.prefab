@@ -174,7 +174,7 @@ MonoBehaviour:
   Luck: 0
   Def: 4
   Res: 4
-  Mov: 0
+  Mov: 1
   hasMoved: 0
   isEnemy: 1
   growths: 
