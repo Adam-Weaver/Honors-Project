@@ -211,7 +211,7 @@ public class GameController : MonoBehaviour
         // Victory and Defeat Conditions
 
         // If the map had a boss, and the boss is nonexistent (has been killed), you win!
-        if (didHaveABoss && mapBoss == null)
+        if (didHaveABoss && !mapBoss.active)
         {
             victoryCanvas.active = true;
             return;
