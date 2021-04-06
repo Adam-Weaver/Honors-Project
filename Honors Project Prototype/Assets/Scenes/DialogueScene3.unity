@@ -151,44 +151,54 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueList:
-  - Auaagh...
-  - Well, that's taken care of now.
+  - Ouch! You're really good with that thing, aren't you? It's no wonder you're designated
+    for Elysium.
+  - Elysium? So this is the Underworld?
   - ...
-  - No corpses... And it seemed like they were intangible...
-  - Either some magic is at work here...
-  - Or I'm dead...
-  - ...
-  - No use dwelling on it... I have no choice but to keep moving.
-  - The fog seems less dense this way... Maybe I'll find answers there.
-  - .o0o.
-  - What's that ahead? A carpet? And it's guarded by more of those phantoms.
-  - The one I fought earlier seemed pretty mindless...
-  - Maybe that person in the red cloak is controlling them? They might have answers...
-  - Excuse me! Do you know where we are?
-  - Oh, you must be the new soul that's just arri---
-  - AUGH! A skeleton?! Die!
-  - Well, now hold on, you can't just ---
-  - HEY! Well, there goes my hopes of you being a good soul... It seems a banishment
-    is in order...
+  - No, it's not the Underworld. It's definitely still the mortal world, there's
+    just skeletons and wayward souls around now.
+  - Very funny... So what exactly happened to me?
+  - The usual for people like you, I'm afraid. You led your soldiers bravely into
+    battle, and now you have followed them into death.
+  - At least it was an honorable end... But I can't stay here! I need to go back!
+  - That's what they all say, and it never works out for them...
+  - What happens to them?
+  - Well, best case scenario, they attempt to fight their way out of the Underworld,
+    get defeated, and give up, spending eternity in Elysium.
+  - And the worst case?
+  - Let's just say that my boss hates to get involved in such matters personally,
+    but when he does, your afterlife becomes much less comfortable.
+  - I see... You seem rather knowledgeable about these sorts of things. Any chance
+    you could help me get out of here?
+  - ...Eh, why not? I'm bored, and you stand no chance against the boss either way,
+    so I may as well come and watch you fail.
+  - Then I appreciate your help, if not your pessimism. I'm---
+  - Leo, former king of Ititthia, current resident of Elysium. Charmed. I'm Aimilios.
+  - Nice to meet you. Now, where do we go?
+  - You're actually heading the right way already. Straight through this building
+    and past the guards, then it's a straight shot down the Hall of Souls to the
+    Gate.
+  - Alright then. Let's go!
   speakerList:
-  - Phantom
-  - Leo
-  - Leo
-  - Leo
-  - Leo
-  - Leo
-  - Leo
-  - Leo
-  - Leo
-  - 
-  - Leo
-  - Leo
-  - Leo
-  - Leo
   - ???
   - Leo
   - ???
   - ???
+  - Leo
+  - ???
+  - Leo
+  - ???
+  - Leo
+  - ???
+  - Leo
+  - ???
+  - Leo
+  - ???
+  - Leo
+  - Aimilios
+  - Leo
+  - Aimilios
+  - Leo
   dialogueTBox: {fileID: 1882367451}
   speakerTBox: {fileID: 215889672}
   speakerBGImage: {fileID: 1291865447}
@@ -242,8 +252,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -224.81, y: 2.9}
-  m_SizeDelta: {x: 206.83618, y: 32.32364}
+  m_AnchoredPosition: {x: -224.35, y: 2.9}
+  m_SizeDelta: {x: 213.22876, y: 32.32364}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &215889674
 MonoBehaviour:
