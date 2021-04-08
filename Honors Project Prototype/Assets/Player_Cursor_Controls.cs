@@ -355,17 +355,6 @@ public class Player_Cursor_Controls : MonoBehaviour
             return;
         }
 
-        var gameControllerScript = gameController.GetComponent<GameController>();
-        if (!gameControllerScript.isPlayerTurn)
-        {
-            hoverCanvas.active = false;
-            return;
-        }
-
-        // Move the cursor towards the move target
-        transform.position = Vector3.MoveTowards(transform.position, moveTarget.position, moveSpeed * Time.deltaTime);
-
-
         if (victoryCanvas.active)
         {
             hoverCanvas.active = false;
@@ -384,6 +373,16 @@ public class Player_Cursor_Controls : MonoBehaviour
 
             return;
         }
+
+        var gameControllerScript = gameController.GetComponent<GameController>();
+        if (!gameControllerScript.isPlayerTurn)
+        {
+            hoverCanvas.active = false;
+            return;
+        }
+
+        // Move the cursor towards the move target
+        transform.position = Vector3.MoveTowards(transform.position, moveTarget.position, moveSpeed * Time.deltaTime);
 
 
         if (playerTurnCanvas.active)
@@ -441,42 +440,15 @@ public class Player_Cursor_Controls : MonoBehaviour
                 else if (Input.GetKeyDown(KeyCode.Space))
                 {
                     Attack();
-
-                    if (attackableTargets[attackTargetIndex].GetComponent<CharacterStats>().currentHp <= 0)
+                    if (currentlySelectedUnit.GetComponent<CharacterStats>().currentHp > 0)
                     {
-                        currentlySelectedUnit.GetComponent<CharacterStats>().exp += 100;
-                        levelUpCanvas.active = true;
-
-                        gameControllerScript.fallenEnemyUnitList.Add(attackableTargets[attackTargetIndex]);
-                        gameControllerScript.enemyUnitList.Remove(attackableTargets[attackTargetIndex]);
-
-                        ResetCombatNums();
-                        isChoosingAttackTarget = false;
-                        buttonCanvas.active = false;
-                        forecastCanvas.active = false;
-                        currentlySelectedUnit.GetComponent<CharacterStats>().hasMoved = 1;
-                        return;
-                    }
-                    else
-                    {
-                        int currUnitLevel = currentlySelectedUnit.GetComponent<CharacterStats>().level;
-                        int enemyUnitLevel = attackableTargets[attackTargetIndex].GetComponent<CharacterStats>().level;
-                        
-                        if (currUnitLevel <= enemyUnitLevel)
+                        if (attackableTargets[attackTargetIndex].GetComponent<CharacterStats>().currentHp <= 0)
                         {
-                            currentlySelectedUnit.GetComponent<CharacterStats>().exp += 30;
-                        }
-                        else if (currUnitLevel - enemyUnitLevel <= 2)
-                        {
-                            currentlySelectedUnit.GetComponent<CharacterStats>().exp += 15;
-                        }
-                        else
-                        {
-                            currentlySelectedUnit.GetComponent<CharacterStats>().exp += 5;
-                        }
-                        if (currentlySelectedUnit.GetComponent<CharacterStats>().exp >= 100)
-                        {
+                            currentlySelectedUnit.GetComponent<CharacterStats>().exp += 100;
                             levelUpCanvas.active = true;
+
+                            gameControllerScript.fallenEnemyUnitList.Add(attackableTargets[attackTargetIndex]);
+                            gameControllerScript.enemyUnitList.Remove(attackableTargets[attackTargetIndex]);
 
                             ResetCombatNums();
                             isChoosingAttackTarget = false;
@@ -484,8 +456,38 @@ public class Player_Cursor_Controls : MonoBehaviour
                             forecastCanvas.active = false;
                             currentlySelectedUnit.GetComponent<CharacterStats>().hasMoved = 1;
                             return;
-                        }   
+                        }
+                        else
+                        {
+                            int currUnitLevel = currentlySelectedUnit.GetComponent<CharacterStats>().level;
+                            int enemyUnitLevel = attackableTargets[attackTargetIndex].GetComponent<CharacterStats>().level;
+
+                            if (currUnitLevel <= enemyUnitLevel)
+                            {
+                                currentlySelectedUnit.GetComponent<CharacterStats>().exp += 30;
+                            }
+                            else if (currUnitLevel - enemyUnitLevel <= 2)
+                            {
+                                currentlySelectedUnit.GetComponent<CharacterStats>().exp += 15;
+                            }
+                            else
+                            {
+                                currentlySelectedUnit.GetComponent<CharacterStats>().exp += 5;
+                            }
+                            if (currentlySelectedUnit.GetComponent<CharacterStats>().exp >= 100)
+                            {
+                                levelUpCanvas.active = true;
+
+                                ResetCombatNums();
+                                isChoosingAttackTarget = false;
+                                buttonCanvas.active = false;
+                                forecastCanvas.active = false;
+                                currentlySelectedUnit.GetComponent<CharacterStats>().hasMoved = 1;
+                                return;
+                            }
+                        }
                     }
+                    
                     currentlySelectedUnit.GetComponent<CharacterStats>().hasMoved = 1;
                     currentlySelectedUnit = null;
                     ResetCombatNums();

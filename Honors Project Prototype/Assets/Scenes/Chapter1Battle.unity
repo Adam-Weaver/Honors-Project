@@ -2576,7 +2576,8 @@ MonoBehaviour:
   gameController: {fileID: 1363240915}
   laterSceneNames:
   - DialogueScene2
-  - DialogueScene2
+  - DialogueScene3
+  - DialogueScene4
   nextScene: -1
   moveSpeed: 10
   moveTarget: {fileID: 1883764846}

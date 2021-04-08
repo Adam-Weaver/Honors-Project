@@ -37,6 +37,7 @@ public class CharacterStats : MonoBehaviour
 
     public Vector3 spawnPoint;
 
+    bool hasSavedSelf = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -51,6 +52,16 @@ public class CharacterStats : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!hasSavedSelf)
+        {
+            if (isEnemy == 0)
+            {
+                transform.parent = null;
+                //DontDestroyOnLoad(self);
+                DontDestroyOnLoad(transform.gameObject);
+                hasSavedSelf = true;
+            }
+        }
         if (currentHp <= 0)
         {
             self.active = false;

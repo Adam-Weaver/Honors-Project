@@ -86,6 +86,7 @@ public class GameController : MonoBehaviour
 
     void SceneHasChanged(Scene current, Scene next)
     {
+        canUpdate = false;
         // If we are on a dialogue scene, handled by a "Dialogue Controller" object, don't try to reset.
         GameObject dialogueController = GameObject.Find("Dialogue Controller");
         if (dialogueController != null)
@@ -133,6 +134,7 @@ public class GameController : MonoBehaviour
         foreach (Transform child in newPlayerUnits.transform)
         {
             GameObject newUnit = child.gameObject;
+            DontDestroyOnLoad(newUnit);
             playerUnitList.Add(newUnit);
         }
 
@@ -142,7 +144,10 @@ public class GameController : MonoBehaviour
         {
             return;
         }
-
+        for (int i = enemyUnitList.Count - 1; i >= 0; i--)
+        {
+            enemyUnitList.RemoveAt(i);
+        }
         foreach (Transform child in newEnemies.transform)
         {
             GameObject newUnit = child.gameObject;
@@ -159,6 +164,11 @@ public class GameController : MonoBehaviour
             if (bossUnit != null)
             {
                 mapBoss = bossUnit;
+            }
+            else
+            {
+                mapBoss = null;
+                didHaveABoss = false;
             }
         }
 
@@ -214,6 +224,7 @@ public class GameController : MonoBehaviour
         if (didHaveABoss && !mapBoss.active)
         {
             victoryCanvas.active = true;
+            canUpdate = false;
             return;
         }
 
