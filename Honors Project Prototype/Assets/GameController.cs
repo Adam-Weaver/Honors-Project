@@ -15,6 +15,7 @@ public class GameController : MonoBehaviour
     public List<GameObject> fallenEnemyUnitList;
 
     public GameObject mapBoss;
+    public LayerMask mapEdge;
 
     public GameObject victoryCanvas;
     public GameObject defeatCanvas;
@@ -455,7 +456,8 @@ public class GameController : MonoBehaviour
                         possibleEndPoints.Add(new Vector3(basePosition.x, basePosition.y + 1, 0f));
                         possibleEndPoints.Add(new Vector3(basePosition.x, basePosition.y - 1, 0f));
 
-                        possibleEndPoints = possibleEndPoints.Where(x => ((Mathf.Abs(x.x - currEnemyPos.x)) + (Mathf.Abs(x.y - currEnemyPos.y))) <= currEnemyStats.Mov).ToList();
+                        possibleEndPoints = possibleEndPoints.Where(x => ((Mathf.Abs(x.x - currEnemyPos.x)) + (Mathf.Abs(x.y - currEnemyPos.y))) <= (currEnemyStats.Mov + currEnemyStats.weaponRange)).ToList();
+                        possibleEndPoints = possibleEndPoints.Where(x => !Physics2D.OverlapCircle(x, 0.1f, mapEdge)).ToList();
 
                         foreach (GameObject unit in playerUnitList)
                         {

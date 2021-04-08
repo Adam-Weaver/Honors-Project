@@ -10276,6 +10276,9 @@ MonoBehaviour:
   fallenPlayerUnitList: []
   fallenEnemyUnitList: []
   mapBoss: {fileID: 0}
+  mapEdge:
+    serializedVersion: 2
+    m_Bits: 256
   victoryCanvas: {fileID: 203645612}
   defeatCanvas: {fileID: 506373646}
   enemyTurnCanvas: {fileID: 1804954813}
