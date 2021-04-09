@@ -229,53 +229,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueList:
-  - Found the correct dialogue scene
-  - Elysium? So this is the Underworld?
-  - ...
-  - No, it's not the Underworld. It's definitely still the mortal world, there's
-    just skeletons and wayward souls around now.
-  - Very funny... So what exactly happened to me?
-  - The usual for people like you, I'm afraid. You led your soldiers bravely into
-    battle, and now you have followed them into death.
-  - At least it was an honorable end... But I can't stay here! I need to go back!
-  - That's what they all say, and it never works out for them...
-  - What happens to them?
-  - Well, best case scenario, they attempt to fight their way out of the Underworld,
-    get defeated, and give up, spending eternity in Elysium.
-  - And the worst case?
-  - Let's just say that my boss hates to get involved in such matters personally,
-    but when he does, your afterlife becomes much less comfortable.
-  - I see... You seem rather knowledgeable about these sorts of things. Any chance
-    you could help me get out of here?
-  - ...Eh, why not? I'm bored, and you stand no chance against the boss either way,
-    so I may as well come and watch you fail.
-  - Then I appreciate your help, if not your pessimism. I'm---
-  - Leo, former king of Ititthia, current resident of Elysium. Charmed. I'm Aimilios.
-  - Nice to meet you. Now, where do we go?
-  - You're actually heading the right way already. Straight through this building
-    and past the guards, then it's a straight shot down the Hall of Souls to the
-    Gate.
-  - Alright then. Let's go!
+  - That was... quite a few guards...
+  - Are you serious? That was only the security for this room! We still have the
+    entire rest of the hall to go!
+  - The rest of the hall to go until what?
+  - Ah, Aris! Perfect timing. What are you up to right now?
+  - Something a whole lot less interesting than you, it seems. Mind if I join in?
+  - Be my guest!
+  - Wait, don't I get a say in this?
+  - Do you want to make it out of the Underworld, or not?
+  - Fair point.
+  - Then let's go!
   speakerList:
-  - ???
   - Leo
+  - Aimilios
   - ???
-  - ???
-  - Leo
-  - ???
-  - Leo
-  - ???
-  - Leo
-  - ???
-  - Leo
-  - ???
-  - Leo
-  - ???
-  - Leo
+  - Aimilios
+  - Aris
   - Aimilios
   - Leo
   - Aimilios
   - Leo
+  - Aris
   dialogueTBox: {fileID: 109060781}
   speakerTBox: {fileID: 1283221671}
   speakerBGImage: {fileID: 1439966367}
