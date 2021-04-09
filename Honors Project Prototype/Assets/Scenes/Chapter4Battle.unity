@@ -12665,7 +12665,7 @@ MonoBehaviour:
   growths: 6400000064000000000000003c0000002300000032000000640000002d000000
   level: 8
   exp: 0
-  weaponRange: 0
+  weaponRange: 1
   weaponMt: 10
   hit: 70
   crit: 20

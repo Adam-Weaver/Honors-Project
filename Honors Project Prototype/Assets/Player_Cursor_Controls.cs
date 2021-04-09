@@ -168,7 +168,15 @@ public class Player_Cursor_Controls : MonoBehaviour
         }
         gc.fallenPlayerUnitList = new List<GameObject>();
 
-        foreach (GameObject eUnit in gc.fallenEnemyUnitList)
+        
+
+        for (int i = 0; i < gc.fallenEnemyUnitList.Count; i++)
+        {
+            gc.enemyUnitList.Add(gc.fallenEnemyUnitList[i]);
+        }
+        gc.fallenEnemyUnitList = new List<GameObject>();
+
+        foreach (GameObject eUnit in gc.enemyUnitList)
         {
             eUnit.active = true;
             var unitStats = eUnit.GetComponent<CharacterStats>();
@@ -176,12 +184,6 @@ public class Player_Cursor_Controls : MonoBehaviour
             unitStats.hasMoved = 0;
             eUnit.transform.position = unitStats.spawnPoint;
         }
-
-        for (int i = 0; i < gc.fallenEnemyUnitList.Count; i++)
-        {
-            gc.enemyUnitList.Add(gc.fallenEnemyUnitList[i]);
-        }
-        gc.fallenEnemyUnitList = new List<GameObject>();
         return;
     }
 
