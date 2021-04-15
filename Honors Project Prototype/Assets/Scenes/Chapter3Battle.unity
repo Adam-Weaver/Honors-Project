@@ -546,7 +546,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 7
-      m_TileSpriteIndex: 29
+      m_TileSpriteIndex: 42
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -7801,9 +7801,8 @@ Tilemap:
   - m_RefCount: 4
     m_Data: {fileID: -1155270651683876577, guid: 08329c46cf815604f8a3bae505592c3d,
       type: 3}
-  - m_RefCount: 1
-    m_Data: {fileID: -997126237222016797, guid: 08329c46cf815604f8a3bae505592c3d,
-      type: 3}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   - m_RefCount: 4
     m_Data: {fileID: -3716328114814400003, guid: 08329c46cf815604f8a3bae505592c3d,
       type: 3}
@@ -7838,8 +7837,9 @@ Tilemap:
   - m_RefCount: 1
     m_Data: {fileID: 5786124574024061925, guid: 08329c46cf815604f8a3bae505592c3d,
       type: 3}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
+  - m_RefCount: 1
+    m_Data: {fileID: -997126237222016797, guid: 08329c46cf815604f8a3bae505592c3d,
+      type: 3}
   - m_RefCount: 1
     m_Data: {fileID: -1211089889800268800, guid: 08329c46cf815604f8a3bae505592c3d,
       type: 3}
@@ -13830,9 +13830,9 @@ MonoBehaviour:
   maxHp: 20
   currentHp: 20
   Str: 0
-  Mag: 10
+  Mag: 12
   Skl: 5
-  Spd: 6
+  Spd: 15
   Luck: 0
   Def: 4
   Res: 8
