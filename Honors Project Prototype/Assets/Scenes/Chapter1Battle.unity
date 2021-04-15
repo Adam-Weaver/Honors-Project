@@ -2578,6 +2578,7 @@ MonoBehaviour:
   - DialogueScene2
   - DialogueScene3
   - DialogueScene4
+  - DialogueScene5
   nextScene: -1
   moveSpeed: 10
   moveTarget: {fileID: 1883764846}
