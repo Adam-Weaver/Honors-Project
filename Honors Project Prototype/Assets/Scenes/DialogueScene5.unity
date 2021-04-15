@@ -699,27 +699,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueList:
-  - That was... quite a few guards...
-  - Are you serious? That was only the security for this room! We still have the
-    entire rest of the hall to go!
-  - The rest of the hall to go until what?
-  - Ah, Aris! Perfect timing. What are you up to right now?
-  - Something a whole lot less interesting than you, it seems. Mind if I join in?
-  - Be my guest!
-  - Wait, don't I get a say in this?
-  - Do you want to make it out of the Underworld, or not?
-  - Fair point.
-  - Then let's go!
+  - How much further?
+  - Not long now. Just one more room and we'll reach the temple, where you can cross
+    back over to the mortal world.
+  - Good. Then ---
+  - Arf! Arf!
+  - What was that?
+  - Heheheheh... this is where it gets interesting...
+  - What?
+  - Grrr.....
+  - Aimilios! What is this?
+  - Come now, he may not be as famous as the boss, but surely you've heard of Cerberus?
+    He guards the temple, and doesn't take kindly to escapees.
+  - So if you want to get out, we'll just have to teach that overgrown mutt a lesson!
   speakerList:
   - Leo
   - Aimilios
+  - Leo
   - ???
-  - Aimilios
-  - Aris
-  - Aimilios
   - Leo
   - Aimilios
   - Leo
+  - ???
+  - Leo
+  - Aimilios
   - Aris
   dialogueTBox: {fileID: 681032022}
   speakerTBox: {fileID: 698027996}
