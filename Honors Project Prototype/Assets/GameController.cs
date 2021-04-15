@@ -456,22 +456,57 @@ public class GameController : MonoBehaviour
                         possibleEndPoints.Add(new Vector3(basePosition.x, basePosition.y + 1, 0f));
                         possibleEndPoints.Add(new Vector3(basePosition.x, basePosition.y - 1, 0f));
 
-                        possibleEndPoints = possibleEndPoints.Where(x => ((Mathf.Abs(x.x - currEnemyPos.x)) + (Mathf.Abs(x.y - currEnemyPos.y))) <= (currEnemyStats.Mov + currEnemyStats.weaponRange)).ToList();
-                        possibleEndPoints = possibleEndPoints.Where(x => !Physics2D.OverlapCircle(x, 0.1f, mapEdge)).ToList();
+
+                        for (int i = possibleEndPoints.Count - 1; i >= 0; i--)
+                        {
+                            Vector3 end = possibleEndPoints[i];
+
+                            var dist = Mathf.Abs(end.x - currEnemyPos.x) + Mathf.Abs(end.y - currEnemyPos.y);
+                            int currMove = currEnemyStats.Mov;
+                            if (currMove == 0)
+                            {
+                                currMove = 1;
+                            }
+                            if (dist > (currMove + 0.2f))
+                            {
+                                possibleEndPoints.RemoveAt(i);
+                            }
+
+                            else if (Physics2D.OverlapCircle(end, 0.1f, mapEdge))
+                            {
+                                possibleEndPoints.RemoveAt(i);
+                            }
+                        }
+                        // possibleEndPoints = possibleEndPoints.Where(x => (((Mathf.Abs(x.x - currEnemyPos.x)) + (Mathf.Abs(x.y - currEnemyPos.y))) <= (currEnemyStats.Mov + currEnemyStats.weaponRange))).ToList();
+                        // possibleEndPoints = possibleEndPoints.Where(x => !Physics2D.OverlapCircle(x, 0.1f, mapEdge)).ToList();
 
                         foreach (GameObject unit in playerUnitList)
                         {
                             if (unit != null)
                             {
-                                possibleEndPoints = possibleEndPoints.Where(x => x != unit.transform.position).ToList();
+                                for (int i = possibleEndPoints.Count - 1; i >= 0; i--)
+                                {
+                                    Vector3 end = possibleEndPoints[i];
+                                    if (end == unit.transform.position)
+                                    {
+                                        possibleEndPoints.RemoveAt(i);
+                                    }
+                                }
                             }                       
                         }
                         foreach (GameObject unit in enemyUnitList)
                         {
                             if (unit != null && unit != currEnemy)
                             {
-                                possibleEndPoints = possibleEndPoints.Where(x => x != unit.transform.position).ToList();
-                            }
+                                for (int i = possibleEndPoints.Count - 1; i >= 0; i--)
+                                {
+                                    Vector3 end = possibleEndPoints[i];
+                                    if (end == unit.transform.position)
+                                    {
+                                        possibleEndPoints.RemoveAt(i);
+                                    }
+                                }
+                            }  
                         }
 
                         if (possibleEndPoints.Contains(currEnemyPos))
