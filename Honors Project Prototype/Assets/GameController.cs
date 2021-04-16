@@ -90,10 +90,18 @@ public class GameController : MonoBehaviour
         canUpdate = false;
         // If we are on a dialogue scene, handled by a "Dialogue Controller" object, don't try to reset.
         GameObject dialogueController = GameObject.Find("Dialogue Controller");
-        if (dialogueController != null)
+        GameObject gameEndCanvas = GameObject.Find("Game Won Canvas");
+        
+        if (dialogueController != null || gameEndCanvas != null)
         {
+            foreach (GameObject unit in playerUnitList)
+            {
+                unit.active = false;
+            }
             return;
         }
+
+
         
 
         enemyTurnCanvas.active = false;
@@ -104,6 +112,7 @@ public class GameController : MonoBehaviour
 
         foreach (GameObject unit in playerUnitList)
         {
+            unit.active = true;
             GameObject slot = GameObject.Find("Slot " + currSlotID);
             if (slot != null)
             {

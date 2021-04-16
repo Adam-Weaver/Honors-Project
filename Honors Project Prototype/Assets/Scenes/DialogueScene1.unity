@@ -652,6 +652,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueList:
+  - 'Arrow keys: Move cursor, navigate buttons. Space bar: Confirm, advance dialogue.
+    C key: Cancel.'
   - Ugh... Where am I? What happened? And where did all this fog come from?
   - Let's see... The last thing I remember, I was fighting at that pass, then everything
     went dark...
@@ -661,6 +663,7 @@ MonoBehaviour:
   - Looks like I don't have time to think about that right now. I'll worry about
     it later. For now, you'll pay for interrupting me!
   speakerList:
+  - Controls
   - Leo
   - Leo
   - Leo

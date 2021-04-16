@@ -123,6 +123,13 @@ public class Player_Cursor_Controls : MonoBehaviour
             return;
         }
 
+        GameObject gameEndCanvas = GameObject.Find("Game Won Canvas");
+        if (gameEndCanvas != null)
+        {
+            transform.gameObject.active = false;
+            return;
+        }
+
         currentlySelectedUnit = null;
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<BoxCollider2D>();

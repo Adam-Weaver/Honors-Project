@@ -116,7 +116,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f999215aa48e12d49a9a4503cde26cce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterName: 
+  characterName: Phalanxite
   maxHp: 30
   currentHp: 30
   Str: 12

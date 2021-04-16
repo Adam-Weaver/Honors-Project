@@ -2580,6 +2580,7 @@ MonoBehaviour:
   - DialogueScene4
   - DialogueScene5
   - DialogueScene6
+  - DialogueSceneGameEnd
   nextScene: -1
   moveSpeed: 10
   moveTarget: {fileID: 1883764846}
