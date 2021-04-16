@@ -72,8 +72,8 @@ public class Player_Cursor_Controls : MonoBehaviour
     bool enemyDoubles = false;
 
     bool didShowGrowths = false;
-
-    int updatesSinceButtonChange;
+    
+    float timeSinceLastButtonChange;
 
 
     private static Player_Cursor_Controls instance;
@@ -101,7 +101,7 @@ public class Player_Cursor_Controls : MonoBehaviour
         isChoosingAttackTarget = false;
         selectedButtonIndex = -1;
         weaponBListIndex = -1;
-        updatesSinceButtonChange = 50;
+        timeSinceLastButtonChange = 0.2f;
 
         attackTargetIndex = -1;
         attackableTargets = new List<GameObject>();
@@ -137,7 +137,7 @@ public class Player_Cursor_Controls : MonoBehaviour
         isChoosingAttackTarget = false;
         selectedButtonIndex = -1;
         weaponBListIndex = -1;
-        updatesSinceButtonChange = 50;
+        timeSinceLastButtonChange = 0.2f;
 
         attackTargetIndex = -1;
         attackableTargets = new List<GameObject>();
@@ -240,11 +240,11 @@ public class Player_Cursor_Controls : MonoBehaviour
                 weaponUpgradeCanvas.active = false;
                 currentlySelectedUnit = null;
                 ColorWeaponUpgradeButtons();
-                updatesSinceButtonChange = 50;
+                timeSinceLastButtonChange = 0.2f;
                 return;
             }
 
-            if (updatesSinceButtonChange >= 50)
+            if (timeSinceLastButtonChange >= 0.2f)
             {
                 bool moveHor = Mathf.Abs(Input.GetAxisRaw("Horizontal")) == 1f;
                 if (moveHor)
@@ -263,12 +263,12 @@ public class Player_Cursor_Controls : MonoBehaviour
                             weaponBListIndex -= 1;
                         }
                     }
-                    updatesSinceButtonChange = 0;
+                    timeSinceLastButtonChange = 0.0f;
                 }
                 return;
             }
-
-            updatesSinceButtonChange += 1;
+         
+            timeSinceLastButtonChange += Time.deltaTime;
             return;
         }
 
